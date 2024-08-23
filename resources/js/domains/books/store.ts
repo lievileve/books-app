@@ -8,7 +8,6 @@ interface Book {
 }
 
 //Book-state
-// const books = ref([]);
 const books = ref<Book[]>([]);
 
 //Getters
@@ -18,14 +17,6 @@ const getAllBooks = async () => {
     books.value = data;
 };
 
-// const listAllBooks = () => {
-//     onMounted(() => {
-//         getAllBooks();
-//     });
-//     return {
-//         books: computed(() => books.value),
-//     };
-// };
 const listAllBooks = (): {books: ComputedRef<Book[]>} => {
     onMounted(() => {
         getAllBooks();

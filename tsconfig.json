@@ -17,7 +17,19 @@
         "esModuleInterop": true,
         "checkJs": true,
         "jsx": "preserve",
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+
+        // New options
+        "outDir": "./dist", // Output directory for compiled files
+        "rootDir": "./resources/js", // Root directory for your source files
+        "baseUrl": ".", // Base directory for non-relative imports
+        "paths": {
+            "@/*": ["resources/js/*"] // Alias for easier imports
+        }
     },
-    "include": ["resources/js/**/*", "router"]
+    "include": ["resources/js/**/*", "router"],
+    "exclude": [
+        "node_modules",
+        "dist" // Exclude the output directory
+    ]
 }
