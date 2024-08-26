@@ -7,10 +7,12 @@ export interface Book {
     author_id: number;
 }
 
-//Book-state
+//State
 const books = ref<Book[]>([]);
+const pickedBook = ref<Book | null>(null);
 
 //Getters
+
 const getAllBooks = async () => {
     const {data} = await axios.get<Book[]>('api/books');
     if (!data) return;
@@ -29,6 +31,17 @@ const listAllBooks = (): {books: ComputedRef<Book[]>} => {
 
 export default listAllBooks;
 
+export const getBookById = async (id: number) => {
+    try {
+        const response = await axios.get(`/api/books/${id}`);
+        pickedBook.value = response.data;
+        return pickedBook.value;
+    } catch (error) {
+        console.error('Error fetching book by ID:', error);
+        throw error;
+    }
+};
+
 //Actions
 
 export const addBook = async (book: Omit<Book, 'id'>): Promise<void> => {
@@ -39,4 +52,8 @@ export const addBook = async (book: Omit<Book, 'id'>): Promise<void> => {
     } catch (error) {
         console.error('Failed to add book:', error);
     }
+};
+
+export const findBook = () => {
+    return {pickedBook, getBookById};
 };

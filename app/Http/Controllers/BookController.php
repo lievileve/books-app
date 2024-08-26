@@ -10,7 +10,7 @@ class BookController extends Controller
 {
         public function index()
     {
-        $books = Book::all();
+        $books = Book::with('author:id,name')->get();
         return response()->json($books);
     }
 
@@ -29,4 +29,9 @@ public function store(Request $request): JsonResponse
     return response()->json($book, 201);
 }
 
+    public function show(Book $book)
+    {
+    
+        return response()->json($book);
+    }
 }
