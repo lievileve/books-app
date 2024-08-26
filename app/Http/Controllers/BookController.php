@@ -14,17 +14,17 @@ class BookController extends Controller
         return response()->json($books);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(): JsonResponse
     {
         //function from chatGPT, update and refactor using RMB
-        // Validate the request data
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'author_id' => 'required|integer|exists:authors,id',
-        ]);
+        // // Validate the request data
+        // $validatedData = $request->validate([
+        //     'title' => 'required|string|max:255',
+        //     'author_id' => 'required|integer|exists:authors,id',
+        // ]);
 
         // Create a new book using the validated data
-        $book = Book::create($validatedData);
+        $book = Book::create();
 
         // Return the newly created book as a JSON response
         return response()->json($book, 201);

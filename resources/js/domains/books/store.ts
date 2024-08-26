@@ -34,6 +34,7 @@ export default listAllBooks;
 export const addBook = async (book: Omit<Book, 'id'>): Promise<void> => {
     try {
         const {data} = await axios.post<Book>('api/books', book);
+        if (!data) return;
         books.value.push(data);
     } catch (error) {
         console.error('Failed to add book:', error);

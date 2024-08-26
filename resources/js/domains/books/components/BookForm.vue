@@ -14,7 +14,7 @@ const singleBook = ref<Omit<Book, 'id'>>({
     author_id: prop.book?.author_id || null,
 });
 
-const emit = defineEmits(['submit']);
+const emit = defineEmits<{(e: 'submit', book: Omit<Book, 'id'>): void}>();
 
 const handleSubmit = () => {
     emit('submit', singleBook.value);

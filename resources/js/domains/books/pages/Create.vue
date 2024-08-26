@@ -14,9 +14,9 @@ const {authors} = listAllAuthors();
 
 const header = 'Add New Book';
 
-const handleNewBook = async () => {
+const handleNewBook = async (book: Omit<Book, 'id'>) => {
     try {
-        await addBook(newBook.value);
+        await addBook(book);
     } catch (error) {
         console.error('Error adding the book:', error);
     }
