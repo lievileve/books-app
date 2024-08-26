@@ -2,8 +2,6 @@
 import listAllBooks from '../store';
 
 const {books} = listAllBooks();
-
-console.log(books);
 </script>
 <template>
     <table>

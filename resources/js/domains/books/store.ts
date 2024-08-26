@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {computed, ComputedRef, onMounted, ref} from 'vue';
 
-interface Book {
+export interface Book {
     id: number;
     title: string;
     author_id: number;
@@ -30,3 +30,12 @@ const listAllBooks = (): {books: ComputedRef<Book[]>} => {
 export default listAllBooks;
 
 //Actions
+
+export const addBook = async (book: Omit<Book, 'id'>): Promise<void> => {
+    try {
+        const {data} = await axios.post<Book>('api/books', book);
+        books.value.push(data);
+    } catch (error) {
+        console.error('Failed to add book:', error);
+    }
+};
