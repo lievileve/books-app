@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import router from '@/router';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Book } from '../store';
 
 const prop = defineProps({
@@ -9,11 +9,26 @@ const prop = defineProps({
     authors: Object,
 });
 
-const singleBook = ref<Book>({
-    id: prop.book?.id || undefined,
-    title: prop.book?.title || '',
-    author_id: prop.book?.author_id || null,
-});
+// const singleBook = ref<Book>({
+//     id: prop.book?.id || undefined,
+//     title: prop.book?.title || '',
+//     author_id: prop.book?.author_id || null,
+// });
+
+const singleBook = ref(prop.book ? JSON.parse(JSON.stringify(prop.book)) : {});
+
+// const singleBook = ref<Book | {}>(props.book ? JSON.parse(JSON.stringify(props.book)) : {}); <- alternatief, nog uitzoeken wat precies het verschil is. 
+
+//suggestie hieronder van ChatGPT om te zorgen dat singleBook niet leeg is. 
+watch(
+    () => prop.book,
+    (newBook) => {
+        if (newBook) {
+            singleBook.value = JSON.parse(JSON.stringify(newBook));
+        }
+    },
+    { immediate: true } // This ensures the watcher runs immediately with the initial value
+);
 
 const emit = defineEmits<{ (e: 'submit', book: Book): void }>();
 
@@ -24,7 +39,13 @@ const handleSubmit = () => {
 </script>
 
 <template>
-    <h1>{{ prop.header }}</h1>
+    <!-- BookForm laadt nu dmv eager loading zowel het boek als de bijbehorende auteur. Hoe kan ik dit nu inzetten om de input fields juist te vullen?
+     En betekent dit dat ik de store functies om dingen bij elkaar te halen ook kan schrappen? Lijkt dubbelop maar ik weet niet of het in beide gevallen gedaan moet worden. 
+     Dingen om volgende keer aan te werken. De titel wordt nu in ieder geval correct geimporteerd in het formulier, nu de auteur nog. -->
+    <h1>{{ prop.header }}<br>
+        {{ prop.book }}<br>
+        {{ singleBook }}<br>
+    </h1>
     <form @submit.prevent="handleSubmit">
         <label for="title">Title:</label>
         <br />

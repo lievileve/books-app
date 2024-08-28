@@ -23,14 +23,13 @@ const editBook = (book: Book) => {
         <th>Title</th>
         <th>Author</th>
         <th>Edit Book</th>
-        <th>Delete Book</th>
+        <!-- <th>Delete Book</th> -->
 
         <tr v-for="book in books" :key="book.id">
             <td>{{ book.title }}</td>
             <td>{{ book.authorName }}</td>
-            <!-- typescript error message hierboven, maar werkt wel. Nog aanpassen met computed property in store zodat naam aan id wordt gekoppeld?  -->
             <td><button type="button" @click="editBook(book)">Edit</button></td>
-            <td><button>Delete</button></td>
+            <!-- <td><button>Delete</button></td> -->
         </tr>
     </table>
 </template>

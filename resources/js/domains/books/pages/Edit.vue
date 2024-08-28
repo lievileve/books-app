@@ -10,7 +10,7 @@ const header = 'Edit Book';
 
 const currentBook = ref({});
 
-const currentAuthor = ref({});
+// const currentAuthor = ref({}); -> aanpassen naar currentBook.author? Vrijdag verder mee. 
 
 onMounted(async () => {
     const bookId = Number(route.params.id);
