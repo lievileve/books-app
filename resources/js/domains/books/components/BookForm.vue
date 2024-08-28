@@ -9,16 +9,13 @@ const prop = defineProps({
     authors: Object,
 });
 
-const singleBook = ref<Omit<Book, 'id'>>(
-    JSON.parse(
-        JSON.stringify({
-            title: prop.book?.title || '',
-            author_id: prop.book?.author_id || null,
-        }),
-    ),
-);
+const singleBook = ref<Book>({
+    id: prop.book?.id || undefined,
+    title: prop.book?.title || '',
+    author_id: prop.book?.author_id || null,
+});
 
-const emit = defineEmits<{ (e: 'submit', book: Omit<Book, 'id'>): void }>();
+const emit = defineEmits<{ (e: 'submit', book: Book): void }>();
 
 const handleSubmit = () => {
     emit('submit', singleBook.value);

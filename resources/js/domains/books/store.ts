@@ -3,7 +3,7 @@ import {computed, ComputedRef, onMounted, ref} from 'vue';
 import listAllAuthors, { Author, findAuthorById } from '../authors/store';
 
 export interface Book {
-    id: number;
+    id?: number;
     title: string;
     author_id: number;
     authorName?: string;

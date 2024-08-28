@@ -10,9 +10,11 @@ const header = 'Edit Book';
 
 const currentBook = ref({});
 
-onMounted(() => {
-    const bookId = Number(route.params.id); // Get the book ID from route params
-    currentBook.value = getBookById(bookId); // Fetch the book details
+const currentAuthor = ref({});
+
+onMounted(async () => {
+    const bookId = Number(route.params.id);
+    currentBook.value = await getBookById(bookId);
     console.log(currentBook.value);
 });
 
@@ -28,5 +30,5 @@ const handleUpdatedBook = async (book: Book) => {
 </script>
 
 <template>
-    <BookForm :header="header" :book="currentBook" @submit="handleUpdatedBook" :authors="authors" />
+    <BookForm :header="header" :book="currentBook" @submit="handleUpdatedBook" :authors="currentAuthor" />
 </template>
