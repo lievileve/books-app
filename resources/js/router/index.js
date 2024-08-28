@@ -6,7 +6,7 @@ import Edit from '@/domains/books/pages/Edit.vue';
 const routes = [
     {path: '/', name: 'overview', component: Overview},
     {path: '/create', name: 'create', component: Create},
-    {path: '/edit/:id', name: 'edit', component: Edit},
+    {path: '/edit/:id', name: 'edit', component: Edit, props: true},
 ];
 
 const router = createRouter({

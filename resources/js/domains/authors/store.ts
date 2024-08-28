@@ -10,20 +10,24 @@ export interface Author {
 const authors = ref<Author[]>([]);
 
 //Getters
-const getAllAuthors = async () => {
-    const {data} = await axios.get<Author[]>('api/authors');
-    if (!data) return;
-    authors.value = data;
+ const getAllAuthors = async () => {
+    try {
+        const { data } = await axios.get<Author[]>('api/authors');
+        authors.value = data;
+    } catch (error) {
+        console.error('Error fetching all authors:', error);
+    }
 };
 
-const listAllAuthors = (): {authors: ComputedRef<Author[]>} => {
-    onMounted(() => {
-        getAllAuthors();
-    });
-
+export const listAllAuthors = (): { authors: ComputedRef<Author[]> } => {
+    getAllAuthors();
     return {
         authors: computed(() => authors.value),
     };
+};
+
+export const findAuthorById = (id: number): Author | undefined => {
+    return authors.value.find(author => author.id === id);
 };
 
 export default listAllAuthors;

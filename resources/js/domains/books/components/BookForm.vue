@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import router from '@/router';
-import {ref} from 'vue';
-import {Book} from '../store';
+import { ref } from 'vue';
+import { Book } from '../store';
 
 const prop = defineProps({
     book: Object,
@@ -9,12 +9,16 @@ const prop = defineProps({
     authors: Object,
 });
 
-const singleBook = ref<Omit<Book, 'id'>>({
-    title: prop.book?.title || '',
-    author_id: prop.book?.author_id || null,
-});
+const singleBook = ref<Omit<Book, 'id'>>(
+    JSON.parse(
+        JSON.stringify({
+            title: prop.book?.title || '',
+            author_id: prop.book?.author_id || null,
+        }),
+    ),
+);
 
-const emit = defineEmits<{(e: 'submit', book: Omit<Book, 'id'>): void}>();
+const emit = defineEmits<{ (e: 'submit', book: Omit<Book, 'id'>): void }>();
 
 const handleSubmit = () => {
     emit('submit', singleBook.value);

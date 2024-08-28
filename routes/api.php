@@ -16,5 +16,8 @@ Route::get('/books/{book}', [BookController::class, 'show']); //retrieves book b
 
 Route::post('/books', [BookController::class, 'store']); //posts new book to the store
 
+Route::put('/books/{book}', [BookController::class, 'update']); //updates book in store
+
 //Author routes:
 Route::get('/authors', [AuthorController::class, 'index']); //lists all authors
+Route::get('/authors/{author}', [AuthorController::class, 'show']);//list single author

@@ -8,30 +8,46 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-        public function index()
+    public function index()
     {
         $books = Book::with('author:id,name')->get();
         return response()->json($books);
     }
 
-public function store(Request $request): JsonResponse
-{
-    // Validate the request data
-    $validatedData = $request->validate([
-        'title' => 'required|string|max:255',
-        'author_id' => 'required|integer|exists:authors,id',
-    ]);
+    public function store(Request $request): JsonResponse
+    {
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'author_id' => 'required|integer|exists:authors,id',
+        ]);
 
-    // Create a new book using the validated data
-    $book = Book::create($validatedData);
+        $book = Book::create($validatedData);
 
-    // Return the newly created book as a JSON response
-    return response()->json($book, 201);
-}
+        return response()->json($book, 201);
+    }
+
 
     public function show(Book $book)
     {
-    
         return response()->json($book);
+    }
+
+
+    public function update(Request $request, Book $book)
+    {
+
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'author_id' => 'required|integer|exists:authors,id',
+        ]);
+
+
+        $book->update($validatedData);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Book updated successfully.',
+            'data' => $book
+        ], 200);
     }
 }

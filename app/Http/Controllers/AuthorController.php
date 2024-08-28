@@ -12,4 +12,11 @@ class AuthorController extends Controller
         $authors = Author::all();
         return response()->json($authors);
     }
+
+    public function show($author)
+    {
+        $author = Author::find($author);
+
+        return response()->json($author);
+    }
 }
