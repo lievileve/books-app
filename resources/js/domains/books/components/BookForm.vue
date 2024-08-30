@@ -39,12 +39,8 @@ const handleSubmit = () => {
 </script>
 
 <template>
-    <!-- BookForm laadt nu dmv eager loading zowel het boek als de bijbehorende auteur. Hoe kan ik dit nu inzetten om de input fields juist te vullen?
-     En betekent dit dat ik de store functies om dingen bij elkaar te halen ook kan schrappen? Lijkt dubbelop maar ik weet niet of het in beide gevallen gedaan moet worden. 
-     Dingen om volgende keer aan te werken. De titel wordt nu in ieder geval correct geimporteerd in het formulier, nu de auteur nog. -->
     <h1>{{ prop.header }}<br>
-        {{ prop.book }}<br>
-        {{ singleBook }}<br>
+        <!-- {{ singleBook }}<br> -->
     </h1>
     <form @submit.prevent="handleSubmit">
         <label for="title">Title:</label>
