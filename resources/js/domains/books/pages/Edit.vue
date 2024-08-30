@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import BookForm from '../components/BookForm.vue';
-import { Book, getBookById } from '../store';
+import { Book, getBookById, updateBook } from '../store';
 import { onMounted, ref } from 'vue';
 import listAllAuthors from '@/domains/authors/store';
 
@@ -15,13 +15,12 @@ const { authors } = listAllAuthors();
 onMounted(async () => {
     const bookId = Number(route.params.id);
     currentBook.value = await getBookById(bookId);
-    console.log(currentBook.value);
 });
 
 
 const handleUpdatedBook = async (book: Book) => {
     try {
-        await updateBook(book); // Call the updateBook function from the store
+        await updateBook(book);
     } catch (error) {
         console.error('Failed to update the book:', error);
     }

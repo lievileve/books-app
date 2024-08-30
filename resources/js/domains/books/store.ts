@@ -55,5 +55,14 @@ export const findBook = () => {
     return {pickedBook, getBookById};
 };
 
-// export const updateBook = () => {
+export const updateBook = async(book:Book): Promise<void> => {
+    try {
+        const { data } = await axios.put<Book>(`/api/books/${book.id}`, book);
+        const index = books.value.findIndex(b => b.id === book.id);
+        books.value[index] = data;
+        } catch (error) {
+        console.error('Failed to update book:', error);
+        throw error; 
+    }
+}
     

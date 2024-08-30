@@ -9,12 +9,6 @@ const prop = defineProps({
     authors: Object,
 });
 
-// const singleBook = ref<Book>({
-//     id: prop.book?.id || undefined,
-//     title: prop.book?.title || '',
-//     author_id: prop.book?.author_id || null,
-// });
-
 const singleBook = ref(prop.book ? JSON.parse(JSON.stringify(prop.book)) : {});
 
 // const singleBook = ref<Book | {}>(props.book ? JSON.parse(JSON.stringify(props.book)) : {}); <- alternatief, nog uitzoeken wat precies het verschil is. 
