@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import router from '@/router';
-import { enrichBooksWithAuthors, getAllBooks, listAllBooks, type Book } from '../store';
-import listAllAuthors from '@/domains/authors/store';
+import { getAllBooks, listAllBooks, type Book } from '../store';
 import { onMounted } from 'vue';
 
 const { books } = listAllBooks();
-const { authors } = listAllAuthors();
 
 const loadBooks = async () => {
     await getAllBooks();
-    await enrichBooksWithAuthors();
 };
 onMounted(loadBooks);
 
@@ -27,7 +24,7 @@ const editBook = (book: Book) => {
 
         <tr v-for="book in books" :key="book.id">
             <td>{{ book.title }}</td>
-            <td>{{ book.authorName }}</td>
+            <td>{{ book.author.name }}</td>
             <td><button type="button" @click="editBook(book)">Edit</button></td>
             <!-- <td><button>Delete</button></td> -->
         </tr>

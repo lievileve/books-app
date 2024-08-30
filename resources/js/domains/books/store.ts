@@ -1,12 +1,10 @@
 import axios from 'axios';
-import {computed, ComputedRef, onMounted, ref} from 'vue';
-import listAllAuthors, { Author, findAuthorById } from '../authors/store';
+import {computed, ComputedRef, ref} from 'vue';
 
 export interface Book {
     id?: number;
     title: string;
     author_id: number;
-    authorName?: string;
 }
 
 //State
@@ -35,16 +33,6 @@ export const getBookById = async (id: number) => {
     }
 };
 
-// export const getAuthorById = async (id: number): Promise<Author | null> => {
-//     try {
-//         const response = await axios.get<Author>(`/api/authors/${id}`);
-//         return response.data;
-//     } catch (error) {
-//         console.error('Error fetching author by ID:', error);
-//         return null;
-//     }
-// };
-
 //Actions
 
 export const addBook = async (book: Omit<Book, 'id'>): Promise<void> => {
@@ -54,21 +42,6 @@ export const addBook = async (book: Omit<Book, 'id'>): Promise<void> => {
         books.value.push(data);
     } catch (error) {
         console.error('Failed to add book:', error);
-    }
-};
-
-// Enrich books with author names using the Author store
-export const enrichBooksWithAuthors = async () => {
-    const { authors } = listAllAuthors(); // Make sure this is returning the correct authors list
-
-    // Wait for the authors to be fetched
-    while (authors.value.length === 0) {
-        await new Promise(resolve => setTimeout(resolve, 100)); // Polling delay
-    }
-
-    for (const book of books.value) {
-        const author = findAuthorById(book.author_id);
-        book.authorName = author ? author.name : 'Unknown Author';
     }
 };
 
