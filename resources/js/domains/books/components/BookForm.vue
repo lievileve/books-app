@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import router from '@/router';
 import { ref, watch } from 'vue';
-import { Book } from '../store';
+import { Book, getAllBooks } from '../store';
+import router from '@/router';
 
 const prop = defineProps({
     book: Object,
@@ -26,9 +26,15 @@ watch(
 
 const emit = defineEmits<{ (e: 'submit', book: Book): void }>();
 
-const handleSubmit = () => {
-    emit('submit', singleBook.value);
-    router.push('/');
+const handleSubmit = async () => {
+    try {
+        console.log(singleBook.value);
+        await emit('submit', singleBook.value);
+
+
+    } catch (error) {
+        console.error('Failed to submit the book:', error);
+    }
 };
 </script>
 

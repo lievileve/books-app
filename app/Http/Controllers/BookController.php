@@ -37,6 +37,7 @@ class BookController extends Controller
     public function update(Request $request, Book $book)
     {
 
+        $book->load('author:id,name');
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'author_id' => 'required|integer|exists:authors,id',
