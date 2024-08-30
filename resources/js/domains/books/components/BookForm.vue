@@ -28,7 +28,7 @@ const emit = defineEmits<{ (e: 'submit', book: Book): void }>();
 
 const handleSubmit = async () => {
     try {
-        console.log(singleBook.value);
+        // console.log(singleBook.value);
         await emit('submit', singleBook.value);
 
 

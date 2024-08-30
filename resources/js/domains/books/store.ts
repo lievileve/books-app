@@ -61,16 +61,13 @@ export const findBook = () => {
 export const updateBook = async (book: Book): Promise<void> => {
     try {
         const {data} = await axios.put<{data: Book}>(`/api/books/${book.id}`, book);
-        console.log(data);
+        // console.log(data);
         const index = books.value.findIndex(b => b.id === book.id);
         if (index !== -1) {
             books.value.splice(index, 1, data.data);
         } else {
             console.warn(`Book with ID ${book.id} not found in the store.`);
         }
-
-        // router.push('/');
-        // <-hier gezet in de hoop dat ik laden van de Overview.vue kon vertragen tot de book array opnieuw geladen is. Nog geen succes.
     } catch (error) {
         console.error('Failed to update book:', error);
         throw error;
