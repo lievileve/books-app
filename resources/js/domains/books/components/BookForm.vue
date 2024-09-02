@@ -40,8 +40,7 @@ const handleSubmit = async () => {
 
 <template>
     <h1>{{ prop.header }}<br>
-        <!-- {{ singleBook }}<br>
-        {{ authors }}<br> -->
+        <!-- {{ singleBook }}<br> -->
     </h1>
     <form @submit.prevent="handleSubmit">
         <label for="title">Title:</label>
