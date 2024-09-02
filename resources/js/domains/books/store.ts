@@ -1,6 +1,7 @@
 import router from '@/router';
 import axios from 'axios';
 import {computed, ComputedRef, ref} from 'vue';
+import listAllAuthors, {Author} from '../authors/store';
 
 export interface Book {
     id?: number;
@@ -8,25 +9,85 @@ export interface Book {
     author_id: number;
 }
 
+export interface BookWithAuthor extends Book {
+    authorName?: string;
+}
+
 //State
 const books = ref<Book[]>([]);
 const pickedBook = ref<Book | null>(null);
+const booksWithAuthors = ref<BookWithAuthor[]>([]);
 
 //Getters
-
-export const getAllBooks = async () => {
+export const getBooksWithAuthors = async () => {
     try {
-        const {data} = await axios.get<Book[]>('api/books');
-        books.value = data;
+        const [booksResponse, authorsResponse] = await Promise.all([
+            axios.get<Book[]>('api/books'),
+            axios.get<Author[]>('api/authors'),
+        ]);
+
+        const booksData = booksResponse.data.data || booksResponse.data;
+        const authorsData = authorsResponse.data.data || authorsResponse.data;
+
+        // Map through the books and add the author name
+        booksWithAuthors.value = booksData.map(book => {
+            const author = authorsData.find(author => author.id === book.author_id);
+            return {
+                ...book,
+                authorName: author ? author.name : 'Unknown Author',
+            };
+        });
     } catch (error) {
-        console.error('Error fetching all books:', error);
+        console.error('Error fetching books or authors:', error);
     }
 };
 
+export const listAllBooksWithAuthors = (): {booksWithAuthors: ComputedRef<BookWithAuthor[]>} => {
+    return {
+        booksWithAuthors: computed(() => booksWithAuthors.value),
+    };
+};
+
+// export const getAllBooks = async () => {
+//     try {
+//         const {data} = await axios.get<Book[]>('api/books');
+//         console.log(data);
+//         books.value = data;
+//     } catch (error) {
+//         console.error('Error fetching all books:', error);
+//     }
+// };
+
+// export const getBookById = async (id: number) => {
+//     try {
+//         const bookResponse = await axios.get(`/api/books/${id}`);
+//         const bookData = bookResponse.data.data || bookResponse.data;
+
+//         const authorResponse = await axios.get<Author>(`/api/authors/${bookData.author_id}`);
+//         const authorData = authorResponse.data.data || authorResponse.data;
+
+//         pickedBook.value = {...bookData, authorName: authorData.name};
+//         console.log(bookData);
+//         // console.log(authorData);
+//         // console.log(pickedBook.value);
+
+//         return pickedBook.value;
+//     } catch (error) {
+//         console.error('Error fetching book by ID:', error);
+//         throw error;
+//     }
+// };
 export const getBookById = async (id: number) => {
     try {
-        const response = await axios.get(`/api/books/${id}`);
-        pickedBook.value = response.data;
+        const bookResponse = await axios.get(`/api/books/${id}`);
+        const bookData = bookResponse.data.data || bookResponse.data;
+
+        // Extract author data from the nested object
+        const authorName = bookData.author ? bookData.author.name : 'Unknown Author';
+
+        // Combine the book data with the author's name
+        pickedBook.value = {...bookData, authorName};
+
         return pickedBook.value;
     } catch (error) {
         console.error('Error fetching book by ID:', error);
@@ -41,18 +102,16 @@ export const addBook = async (book: Omit<Book, 'id'>): Promise<void> => {
         const {data} = await axios.post<Book>('api/books', book);
         if (!data) return;
         books.value.push(data);
-        // router.push('/');
-        // <-hier gezet in de hoop dat ik laden van de Overview.vue kon vertragen tot de book array opnieuw geladen is. Nog geen succes.
     } catch (error) {
         console.error('Failed to add book:', error);
     }
 };
 
-export const listAllBooks = (): {books: ComputedRef<Book[]>} => {
-    return {
-        books: computed(() => books.value),
-    };
-};
+// export const listAllBooks = (): {books: ComputedRef<Book[]>} => {
+//     return {
+//         books: computed(() => books.value),
+//     };
+// };
 
 export const findBook = () => {
     return {pickedBook, getBookById};

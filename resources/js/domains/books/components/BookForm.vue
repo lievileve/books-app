@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { Book, getAllBooks } from '../store';
+import { Book } from '../store';
 import router from '@/router';
 
 const prop = defineProps({
@@ -40,7 +40,8 @@ const handleSubmit = async () => {
 
 <template>
     <h1>{{ prop.header }}<br>
-        <!-- {{ singleBook }}<br> -->
+        <!-- {{ singleBook }}<br>
+        {{ authors }}<br> -->
     </h1>
     <form @submit.prevent="handleSubmit">
         <label for="title">Title:</label>

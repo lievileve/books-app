@@ -8,18 +8,27 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
-{
-    public function index()
-    {
-        $books = Book::with('author:id,name')->get();
-        return response()->json($books);
-    }
+{   //version below: eager loading without resource
+    // public function index()
+    // {
+    //     $books = Book::with('author:id,name')->get();
+    //     return response()->json($books);
+    // }
 
+    //version below: eager loading with resource collection
     // public function index()
     // {
     //     $books = Book::with('author:id,name')->get();
     //     return BookResource::collection($books);
     // }
+    //version below: Resource collection without eager loading. 
+    public function index()
+    {
+        $books = Book::all();
+        return BookResource::collection($books);
+    }
+
+
 
     public function store(Request $request): JsonResponse
     {

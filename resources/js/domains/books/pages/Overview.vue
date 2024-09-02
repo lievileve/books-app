@@ -1,16 +1,22 @@
 <script setup lang="ts">
 import router from '@/router';
-import { getAllBooks, listAllBooks, type Book } from '../store';
+import { getBooksWithAuthors, listAllBooksWithAuthors, type Book } from '../store';
 import { onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import listAllAuthors from '@/domains/authors/store';
 
-const { books } = listAllBooks();
+// const { books } = listAllBooks();
 
-const loadBooks = async () => {
-    await getAllBooks();
-};
-onMounted(loadBooks);
+// const loadBooks = async () => {
+//     await getAllBooks()
+//     await listAllAuthors();
+// };
+// onMounted(loadBooks);
 
+const { booksWithAuthors } = listAllBooksWithAuthors();
+
+onMounted(() => {
+    getBooksWithAuthors();
+});
 
 
 // Onderstaande geimplementeerd als suggestie van ChatGPT om te zorgen dat ik bij het opnieuw laden van mijn Overview alle data laad, maar dit heeft de issue dat 
@@ -36,9 +42,9 @@ const editBook = (book: Book) => {
         <th>Edit Book</th>
         <!-- <th>Delete Book</th> -->
 
-        <tr v-for="book in books" :key="book.id">
+        <tr v-for="book in booksWithAuthors" :key="book.id">
             <td>{{ book.title }}</td>
-            <td>{{ book.author.name }}</td>
+            <td>{{ book.authorName }}</td>
             <td><button type="button" @click="editBook(book)">Edit</button></td>
             <!-- <td><button>Delete</button></td> -->
         </tr>

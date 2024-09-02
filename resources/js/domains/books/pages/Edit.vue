@@ -14,6 +14,7 @@ const currentBook = ref({});
 const { authors } = listAllAuthors();
 
 onMounted(async () => {
+    await listAllAuthors();
     const bookId = Number(route.params.id);
     currentBook.value = await getBookById(bookId);
 });
