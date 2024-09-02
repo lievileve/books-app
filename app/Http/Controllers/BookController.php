@@ -47,7 +47,26 @@ class BookController extends Controller
         ]);
     }
 
-    public function delete(Book $book) {}
+    public function destroy(Book $book): JsonResponse
+    {
+        try {
+            // Attempt to delete the book
+            $book->delete();
+
+            // Return a successful response
+            return response()->json([
+                'success' => true,
+                'message' => 'Book deleted successfully.',
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle errors
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to delete the book.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }
 //old functions 
  //version below: eager loading without resource

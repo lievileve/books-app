@@ -95,7 +95,26 @@ export const updateBook = async (book: Book): Promise<void> => {
     }
 };
 
-export const deleteBook = 
+export const deleteBook = async (id: number): Promise<void> => {
+    try {
+        await axios.delete(`/api/books/${id}`);
+
+        const index = books.value.findIndex((book: Book) => book.id === id);
+
+        if (index !== -1) {
+            books.value.splice(index, 1);
+            const authorIndex = booksWithAuthors.value.findIndex((book: Book) => book.id === id);
+            if (authorIndex !== -1) {
+                booksWithAuthors.value.splice(authorIndex, 1);
+            }
+        } else {
+            console.warn(`Book with ID ${id} not found in the store.`);
+        }
+    } catch (error) {
+        console.error('Failed to delete book:', error);
+        throw error;
+    }
+};
 
 //Old functions
 

@@ -27,7 +27,6 @@ onMounted(async () => {
     await fetchBookById(bookId);
 });
 
-
 const handleUpdatedBook = async (book: Book) => {
     try {
         await updateBook(book);
