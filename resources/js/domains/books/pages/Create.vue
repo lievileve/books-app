@@ -6,23 +6,25 @@ import type { Book } from '../store';
 import listAllAuthors from '@/domains/authors/store';
 import router from '@/router';
 
-const newBook = ref<Omit<Book, 'id'>>({
+const newBook = ref<Book>({
+    id: 0,
     title: '',
     author_id: 0,
 });
 
-const { authors } = listAllAuthors();
+const authors = listAllAuthors;
 
 const header = 'Add New Book';
 
-const handleNewBook = async (book: Omit<Book, 'id'>) => {
-    try {
-        await addBook(book);
-        router.push('/');
-    } catch (error) {
-        console.error('Error adding the book:', error);
-    }
+const handleNewBook = async (book: Book) => {
+    const response = await addBook(book);
+    router.push({
+        path: '/',
+        query: { message: response.message }
+    });
 };
+
+
 </script>
 <template>
     <BookForm :header="header" :book="newBook" @submit="handleNewBook" :authors="authors" />

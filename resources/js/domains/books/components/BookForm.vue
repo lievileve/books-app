@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { Book } from '../store';
-import router from '@/router';
 
 const prop = defineProps({
     book: Object,
@@ -9,39 +8,17 @@ const prop = defineProps({
     authors: Object,
 });
 
-const singleBook = ref(prop.book ? JSON.parse(JSON.stringify(prop.book)) : {});
-
-// const singleBook = ref<Book | {}>(props.book ? JSON.parse(JSON.stringify(props.book)) : {}); <- alternatief, nog uitzoeken wat precies het verschil is. 
-
-//suggestie hieronder van ChatGPT om te zorgen dat singleBook niet leeg is. 
-watch(
-    () => prop.book,
-    (newBook) => {
-        if (newBook) {
-            singleBook.value = JSON.parse(JSON.stringify(newBook));
-        }
-    },
-    { immediate: true } // This ensures the watcher runs immediately with the initial value
-);
+const singleBook = ref({ ...prop.book });
 
 const emit = defineEmits<{ (e: 'submit', book: Book): void }>();
 
 const handleSubmit = async () => {
-    try {
-        // console.log(singleBook.value);
-        await emit('submit', singleBook.value);
-
-
-    } catch (error) {
-        console.error('Failed to submit the book:', error);
-    }
+    emit('submit', singleBook.value);
 };
 </script>
 
 <template>
-    <h1>{{ prop.header }}<br>
-        <!-- {{ singleBook }}<br> -->
-    </h1>
+    <h1>{{ prop.header }}</h1>
     <form @submit.prevent="handleSubmit">
         <label for="title">Title:</label>
         <br />

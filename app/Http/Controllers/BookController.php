@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BookCollection;
 use App\Models\Book;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class BookController extends Controller
         return BookResource::collection($books);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(Request $request)
     {
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
@@ -24,7 +25,12 @@ class BookController extends Controller
 
         $book = Book::create($validatedData);
 
-        return (new BookResource($book))->response()->setStatusCode(201);
+        $books = Book::all();
+
+        return BookResource::collection($books)->additional([
+            'success' => true,
+            'message' => 'Book added successfully.',
+        ]);
     }
 
     public function show(Book $book)
@@ -32,7 +38,7 @@ class BookController extends Controller
         return new BookResource($book);
     }
 
-    public function update(Request $request, Book $book): BookResource
+    public function update(Request $request, Book $book)
     {
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
@@ -41,31 +47,22 @@ class BookController extends Controller
 
         $book->update($validatedData);
 
-        return (new BookResource($book))->additional([
+        $books = Book::all();
+
+        return BookResource::collection($books)->additional([
             'success' => true,
             'message' => 'Book updated successfully.',
         ]);
     }
 
-    public function destroy(Book $book): JsonResponse
+    public function destroy(Book $book)
     {
-        try {
-            // Attempt to delete the book
-            $book->delete();
-
-            // Return a successful response
-            return response()->json([
-                'success' => true,
-                'message' => 'Book deleted successfully.',
-            ], 200);
-        } catch (\Exception $e) {
-            // Handle errors
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to delete the book.',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+        $book->delete();
+        $books = Book::all();
+        return BookResource::collection($books)->additional([
+            'success' => true,
+            'message' => 'Book deleted successfully.',
+        ]);
     }
 }
 //old functions 

@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import router from '@/router';
-import { deleteBook, getBooksWithAuthors, listAllBooksWithAuthors, type Book } from '../store';
-import { onMounted } from 'vue';
+import { allBooks, Book, deleteBook, getAllBooks } from '../store';
+import { onMounted, ref } from 'vue';
+import { findAuthorById, getAllAuthors } from '@/domains/authors/store';
 
-const { booksWithAuthors } = listAllBooksWithAuthors();
+const booksWithAuthors = allBooks;
+const message = ref('');
 
 onMounted(() => {
-    getBooksWithAuthors();
+    getAllBooks();
+    getAllAuthors();
+    const queryMessage = router.currentRoute.value.query.message;
+    if (queryMessage) {
+        message.value = String(queryMessage);
+        router.replace({ path: '/', query: {} });
+    }
 });
 
 const editBook = (book: Book) => {
@@ -16,12 +24,9 @@ const editBook = (book: Book) => {
 const deleteThis = async (bookId: number) => {
     const confirmed = window.confirm('Are you sure you want to delete this book?');
     if (confirmed) {
-        try {
-            await deleteBook(bookId);
-            await getBooksWithAuthors();
-        } catch (error) {
-            console.error('Error deleting book:', error);
-        }
+        const response = await deleteBook(bookId);
+        message.value = response.message;
+        await getAllBooks();
     }
 };
 
@@ -35,9 +40,10 @@ const deleteThis = async (bookId: number) => {
 
         <tr v-for="book in booksWithAuthors" :key="book.id">
             <td>{{ book.title }}</td>
-            <td>{{ book.authorName }}</td>
+            <td>{{ findAuthorById(book.author_id)?.name }}</td>
             <td><button type="button" @click="editBook(book)">Edit</button></td>
             <td><button type="button" @click="deleteThis(book.id)">Delete</button></td>
         </tr>
     </table>
+    <p v-if="message">{{ message }}</p>
 </template>
