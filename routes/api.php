@@ -32,4 +32,4 @@ Route::get('/reviews', [ReviewController::class, 'index']); //collects all revie
 Route::get('/reviews/{review}', [ReviewController::class, 'show']); //retrieves review by id
 Route::post('/reviews', [ReviewController::class, 'store']); //adds new review to database
 Route::put('/reviews/{review}', [ReviewController::class, 'update']); //updates review in database
-Route::delete('/reviews/{review}', [ReviewController::class, 'destroy']);//deletes review from database
+Route::delete('/reviews/{review}', [ReviewController::class, 'destroy']); //deletes review from database

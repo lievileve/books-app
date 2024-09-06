@@ -6,6 +6,7 @@ import AuthorOverview from '@/domains/authors/pages/Overview.vue';
 import AuthorCreate from '@/domains/authors/pages/Create.vue';
 import AuthorEdit from '@/domains/authors/pages/Edit.vue';
 import Show from '@/domains/books/pages/Show.vue';
+import ReviewEdit from '@/domains/reviews/pages/Edit.vue';
 
 const routes = [
     //Book routes
@@ -20,6 +21,7 @@ const routes = [
     {path: '/edit_author/:id', name: 'edit_author', component: AuthorEdit},
 
     //Review routes
+    {path: '/edit_review/:id', name: 'edit_review', component: ReviewEdit},
 ];
 
 const router = createRouter({
