@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('title', 50);
             $table->foreignId('author_id');
-            $table->foreignId('review_id');
             $table->timestamps();
         });
     }

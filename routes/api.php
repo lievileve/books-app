@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Resources\BookCollection;
 use App\Models\Book;
 use Illuminate\Http\Request;
@@ -25,3 +26,10 @@ Route::get('/authors/{author}', [AuthorController::class, 'show']); //list singl
 Route::post('/authors', [AuthorController::class, 'store']); //adds new author to database
 Route::put('/authors/{author}', [AuthorController::class, 'update']); //updates author in database
 Route::delete('/authors/{author}', [AuthorController::class, 'destroy']); //deletes author from database
+
+//Review routes:
+Route::get('/reviews', [ReviewController::class, 'index']); //collects all reviews from database 
+Route::get('/reviews/{review}', [ReviewController::class, 'show']); //retrieves review by id
+Route::post('/reviews', [ReviewController::class, 'store']); //adds new review to database
+Route::put('/reviews/{review}', [ReviewController::class, 'update']); //updates review in database
+Route::delete('/reviews/{review}', [ReviewController::class, 'destroy']);//deletes review from database

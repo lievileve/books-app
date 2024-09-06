@@ -25,6 +25,5 @@ const handleUpdatedBook = async (book: Book) => {
 </script>
 
 <template>
-    {{ currentBook }}
     <BookForm v-if="currentBook" :header="header" :book="currentBook" @submit="handleUpdatedBook" :authors="authors" />
 </template>

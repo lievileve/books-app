@@ -39,7 +39,7 @@ const deleteThis = async (bookId: number) => {
         <th>Delete Book</th>
 
         <tr v-for="book in booksWithAuthors" :key="book.id">
-            <td>{{ book.title }}</td>
+            <td><a :href="'/books/' + book.id">{{ book.title }}</a></td>
             <td>{{ findAuthorById(book.author_id)?.name }}</td>
             <td><button type="button" @click="editBook(book)">Edit</button></td>
             <td><button type="button" @click="deleteThis(book.id)">Delete</button></td>
