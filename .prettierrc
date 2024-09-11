@@ -6,5 +6,6 @@
     "trailingComma": "all",
     "bracketSpacing": false,
     "arrowParens": "avoid",
-    "htmlWhitespaceSensitivity": "ignore"
+    "htmlWhitespaceSensitivity": "ignore",
+    "indentation": 12
 }

@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
+import { goToRoute } from './services/router';
 </script>
 
 <template>
@@ -8,6 +9,9 @@ import { RouterLink, RouterView } from 'vue-router';
         <RouterLink to="/create">Add Book</RouterLink>
         <RouterLink to="/authors">Authors</RouterLink>
         <RouterLink to="/add_author">Add Author</RouterLink>
+        <button @click="goToRoute('create')">Add Book</button>
+        <button @click="goToRoute('authors')">Authors</button>
+        <button @click="goToRoute('add_author')">Add Author</button>
     </nav>
     <main>
         <RouterView />

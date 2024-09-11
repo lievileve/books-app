@@ -3,7 +3,8 @@ import { useRoute } from 'vue-router';
 import BookForm from '../components/BookForm.vue';
 import { Book, findBookById, getAllBooks, updateBook } from '../store';
 import listAllAuthors from '@/domains/authors/store';
-import router from '@/router';
+import router from '@/services/router';
+
 
 const route = useRoute();
 

@@ -2,7 +2,8 @@
 import { useRoute } from 'vue-router';
 import AuthorForm from '../components/AuthorForm.vue';
 import { Author, findAuthorById, updateAuthor } from '../store';
-import router from '@/router';
+import router from '@/services/router';
+
 
 const route = useRoute();
 

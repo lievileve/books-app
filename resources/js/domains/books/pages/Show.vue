@@ -4,8 +4,9 @@ import { findBookById, getAllBooks } from '../store';
 import { findAuthorById, getAllAuthors } from '@/domains/authors/store';
 import { addReview, deleteReview, findReviewsByBookId, getAllReviews, Review } from '@/domains/reviews/store';
 import { computed, onMounted, ref } from 'vue';
-import router from '@/router';
+
 import ReviewForm from '@/domains/reviews/components/ReviewForm.vue';
+import router from '@/services/router';
 
 const route = useRoute();
 const message = ref('');

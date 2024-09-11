@@ -4,7 +4,8 @@ import BookForm from '../components/BookForm.vue';
 import { addBook } from '../store';
 import type { Book } from '../store';
 import listAllAuthors from '@/domains/authors/store';
-import router from '@/router';
+import router from '@/services/router';
+
 
 const newBook = ref<Book>({
     id: 0,

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import router from '@/router';
+
 import { allBooks, Book, deleteBook, getAllBooks } from '../store';
 import { onMounted, ref } from 'vue';
 import { findAuthorById, getAllAuthors } from '@/domains/authors/store';
+import { router } from '@/services/router';
 
 const booksWithAuthors = allBooks;
 const message = ref('');

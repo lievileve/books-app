@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import listAllAuthors, { Author, deleteAuthor, getAllAuthors } from '../store';
-import router from '@/router';
+import router from '@/services/router';
+
 
 const authors = listAllAuthors;
 const message = ref('');

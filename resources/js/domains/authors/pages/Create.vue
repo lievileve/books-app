@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { addAuthor, Author } from '../store';
-import router from '@/router';
+
 import AuthorForm from '../components/AuthorForm.vue';
+import router from '@/services/router';
 
 
 const header = "Add New Author to Database"
