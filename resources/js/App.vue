@@ -8,10 +8,10 @@ import { goToRoute } from './services/router';
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/create">Add Book</RouterLink>
         <RouterLink to="/authors">Authors</RouterLink>
-        <RouterLink to="/add_author">Add Author</RouterLink>
-        <button @click="goToRoute('create')">Add Book</button>
+        <RouterLink to="/authors_add">Add Author</RouterLink>
+        <!-- <button @click="goToRoute('create')">Add Book</button>
         <button @click="goToRoute('authors')">Authors</button>
-        <button @click="goToRoute('add_author')">Add Author</button>
+        <button @click="goToRoute('authors_add')">Add Author</button> -->
     </nav>
     <main>
         <RouterView />

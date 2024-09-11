@@ -1,25 +1,32 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import BookForm from '../components/BookForm.vue';
-import { Book, findBookById, getAllBooks, updateBook } from '../store';
-import listAllAuthors from '@/domains/authors/store';
+import { Book, bookStore, updateBook } from '../store';
+import { authorStore } from '@/domains/authors/store';
 import router from '@/services/router';
+import { onMounted, ref } from 'vue';
 
-
+bookStore.actions.getAll();
+authorStore.actions.getAll();
 const route = useRoute();
 
 const header = 'Edit Book';
+const currentBook = ref(null);
 
-const currentBook = findBookById(Number(route.params.id));
-const authors = listAllAuthors;
+onMounted(async () => {
+    currentBook.value = await bookStore.actions.getById(Number(route.params.id));
+    console.log(await bookStore.actions.getById(Number(route.params.id)));
+});
+// const currentBook = bookStore.actions.getById(Number(route.params.id));
 
-getAllBooks()
+
+const authors = authorStore.getters.all;
+
 
 const handleUpdatedBook = async (book: Book) => {
     const response = await updateBook(book);
     router.push({
         path: '/',
-        query: { message: response.message }
     });
 };
 

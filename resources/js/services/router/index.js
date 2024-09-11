@@ -1,19 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-export const router = createRouter({
-    history: createWebHistory(),
-    routes: [],
-});
-
 // @ts-ignore
 export function goToRoute(routeName) { 
     router.push({ name: routeName })
 }
 
 // @ts-ignore
-export const createRoute = (routeName, routeComponent) => {
+export const createRoute = (routePath, routeName, routeComponent) => {
     return {
-        path: `/${routeName}`,
+        path: routePath,
         name: routeName,
         component: routeComponent
     };
@@ -24,4 +19,9 @@ export const addRoutes = (routes) => {
     for (const route of routes) router.addRoute(route);
 };
 
-// router.addRoute(addRoute())
+export const router = createRouter({
+    history: createWebHistory(),
+    routes: [],
+});
+
+export default router;

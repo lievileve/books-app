@@ -1,3 +1,5 @@
+// @ts-nocheck
+import { storeModuleFactory } from '@/services/store/factory';
 import axios from 'axios';
 import {computed, ComputedRef, ref} from 'vue';
 
@@ -7,21 +9,19 @@ export interface Author {
 }
 
 //Author-state
-const authors = ref<Author[]>([]);
+export const authorStore = storeModuleFactory('authors');
+const authors = computed(() => authorStore.getters.all.value)
 
-//Getters
-export const getAllAuthors = async () => {
-    const response = await axios.get('/api/authors');
-    authors.value = response.data.data;
-};
+// //Getters
+// await authorStore.actions.getAll();
 
-export const listAllAuthors = computed(() => authors.value);
+// export const getAllAuthors = authors
 
 export const findAuthorById = (id: number) => {
     return authors.value.find(author => author.id === id);
 };
 
-export default listAllAuthors;
+// export default getAllAuthors;
 
 //Actions
 
@@ -42,3 +42,11 @@ export const deleteAuthor = async (id: number) => {
     authors.value = response.data.data;
     return response.data;
 };
+
+//old code
+// const authors = ref<Author[]>([]);
+// export const getAllAuthors = async () => {
+//     const response = await axios.get('/api/authors');
+//     authors.value = response.data.data;
+// };
+// export const listAllAuthors = computed(() => authors.value);

@@ -1,36 +1,25 @@
 <script setup lang="ts">
-
-import { allBooks, Book, deleteBook, getAllBooks } from '../store';
-import { onMounted, ref } from 'vue';
-import { findAuthorById, getAllAuthors } from '@/domains/authors/store';
+// @ts-nocheck
+import {  Book, bookStore, deleteBook } from '../store';
+import { computed, onMounted, ref } from 'vue';
+import { authorStore, findAuthorById } from '@/domains/authors/store';
 import { router } from '@/services/router';
 
-const booksWithAuthors = allBooks;
-const message = ref('');
-
-onMounted(() => {
-    getAllBooks();
-    getAllAuthors();
-    const queryMessage = router.currentRoute.value.query.message;
-    if (queryMessage) {
-        message.value = String(queryMessage);
-        router.replace({ path: '/', query: {} });
-    }
-});
+bookStore.actions.getAll();
+authorStore.actions.getAll();
+const booksWithAuthors = computed(() => bookStore.getters.all.value)
 
 const editBook = (book: Book) => {
-    router.push({ name: 'edit', params: { id: book.id } });
+    router.push({ name: 'books.edit', params: { id: book.id } });
 };
 
+//edit delete function to not use the old delete function from the store but the generic delete function from the store factory
 const deleteThis = async (bookId: number) => {
     const confirmed = window.confirm('Are you sure you want to delete this book?');
     if (confirmed) {
         const response = await deleteBook(bookId);
-        message.value = response.message;
-        await getAllBooks();
     }
 };
-
 </script>
 <template>
     <table>
@@ -46,5 +35,5 @@ const deleteThis = async (bookId: number) => {
             <td><button type="button" @click="deleteThis(book.id)">Delete</button></td>
         </tr>
     </table>
-    <p v-if="message">{{ message }}</p>
+    <!-- <p v-if="message">{{ message }}</p> -->
 </template>

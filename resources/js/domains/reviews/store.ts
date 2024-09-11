@@ -1,3 +1,5 @@
+// @ts-nocheck
+import { storeModuleFactory } from '@/services/store/factory';
 import axios from 'axios';
 import {computed, ref} from 'vue';
 
@@ -9,16 +11,12 @@ export interface Review {
 }
 
 //State
-
-const reviews = ref<Review[]>([]);
+const reviewStore = storeModuleFactory('reviews');
+const reviews = computed(() => reviewStore.getters.all.value);
 
 //Getters
-export const getAllReviews = async () => {
-    const response = await axios.get('/api/reviews');
-    reviews.value = response.data.data;
-};
-
-export const listAllReviews = computed(() => reviews.value);
+await reviewStore.actions.getAll();
+export const getAllReviews = reviews;
 
 export const findReviewById = (id: number) => {
     return reviews.value.find(review => review.id === id);
@@ -28,7 +26,7 @@ export const findReviewsByBookId = (book_id: number) => {
     return reviews.value.filter(review => review.book_id === book_id);
 };
 
-export default listAllReviews;
+export default getAllReviews;
 
 //Actions
 

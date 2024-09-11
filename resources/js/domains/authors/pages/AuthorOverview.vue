@@ -1,24 +1,14 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { onMounted, ref } from 'vue';
-import listAllAuthors, { Author, deleteAuthor, getAllAuthors } from '../store';
+import  { Author, authorStore, deleteAuthor} from '../store';
 import router from '@/services/router';
 
 
-const authors = listAllAuthors;
-const message = ref('');
-
-getAllAuthors()
-
-onMounted(() => {
-    const queryMessage = router.currentRoute.value.query.message;
-    if (queryMessage) {
-        message.value = String(queryMessage);
-        router.replace({ path: '/authors', query: {} });
-    }
-});
+const authors = authorStore.getters.all;
 
 const editAuthor = (author: Author) => {
-    router.push({ name: 'edit_author', params: { id: author.id } });
+    router.push({ name: 'authors.edit', params: { id: author.id } });
 };
 
 const deleteThis = async (authorId: number) => {

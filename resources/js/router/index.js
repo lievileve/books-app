@@ -2,11 +2,11 @@ import {createRouter, createWebHistory} from 'vue-router';
 import Overview from '../domains/books/pages/Overview.vue';
 import Create from '@/domains/books/pages/Create.vue';
 import Edit from '@/domains/books/pages/Edit.vue';
-import AuthorOverview from '@/domains/authors/pages/Overview.vue';
-import AuthorCreate from '@/domains/authors/pages/Create.vue';
-import AuthorEdit from '@/domains/authors/pages/Edit.vue';
+import AuthorOverview from '@/domains/authors/pages/AuthorOverview.vue';
+import AuthorCreate from '@/domains/authors/pages/AuthorCreate.vue';
+import AuthorEdit from '@/domains/authors/pages/AuthorEdit.vue';
 import Show from '@/domains/books/pages/Show.vue';
-import ReviewEdit from '@/domains/reviews/pages/Edit.vue';
+import ReviewEdit from '@/domains/reviews/pages/ReviewEdit.vue';
 
 // const routes = [
 //     //Book routes

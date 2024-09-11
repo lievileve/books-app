@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import BookForm from '../components/BookForm.vue';
-import { addBook } from '../store';
+import { bookStore } from '../store';
 import type { Book } from '../store';
-import listAllAuthors from '@/domains/authors/store';
+import { authorStore } from '@/domains/authors/store';
 import router from '@/services/router';
 
 
@@ -13,20 +13,16 @@ const newBook = ref<Book>({
     author_id: 0,
 });
 
-const authors = listAllAuthors;
+const authors = authorStore.getters.all;
 
 const header = 'Add New Book';
 
-const handleNewBook = async (book: Book) => {
-    const response = await addBook(book);
-    router.push({
-        path: '/',
-        query: { message: response.message }
-    });
-};
-
+const addBook = async (book: Book) => {
+    await bookStore.actions.create(book);
+    router.push({path: '/'});
+}
 
 </script>
 <template>
-    <BookForm :header="header" :book="newBook" @submit="handleNewBook" :authors="authors" />
+    <BookForm :header="header" :book="newBook" @submit="addBook" :authors="authors" />
 </template>

@@ -1,15 +1,15 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { useRoute } from 'vue-router';
-import { findBookById, getAllBooks } from '../store';
-import { findAuthorById, getAllAuthors } from '@/domains/authors/store';
-import { addReview, deleteReview, findReviewsByBookId, getAllReviews, Review } from '@/domains/reviews/store';
-import { computed, onMounted, ref } from 'vue';
+import { findBookById } from '../store';
+import { findAuthorById, } from '@/domains/authors/store';
+import { addReview, deleteReview, findReviewsByBookId, Review } from '@/domains/reviews/store';
+import { computed, ref } from 'vue';
 
 import ReviewForm from '@/domains/reviews/components/ReviewForm.vue';
 import router from '@/services/router';
 
 const route = useRoute();
-const message = ref('');
 const header = 'Write Review';
 const currentBook = findBookById(Number(route.params.id));
 
@@ -31,12 +31,6 @@ const reviews = computed(() => {
     return filteredReviews;
 
 });
-onMounted
-{
-    getAllBooks();
-    getAllAuthors();
-    getAllReviews();
-}
 
 const handleNewReview = async (review: Review) => {
     review.book_id = currentBook.value.id;
@@ -48,7 +42,7 @@ const handleNewReview = async (review: Review) => {
 }
 
 const editReview = (review: Review) => {
-    router.push({ name: 'edit_review', params: { id: review.id } })
+    router.push({ name: 'reviews.edit', params: { id: review.id } })
 }
 const deleteThis = async (reviewId: number) => {
     const confirmed = window.confirm('Are you sure you want to delete this review?');
