@@ -1,9 +1,8 @@
 <script setup lang="ts">
 // @ts-nocheck
 import { onMounted, ref } from 'vue';
-import  { Author, authorStore, deleteAuthor} from '../store';
+import  { Author, authorStore} from '../store';
 import router from '@/services/router';
-
 
 const authors = authorStore.getters.all;
 
@@ -13,10 +12,9 @@ const editAuthor = (author: Author) => {
 
 const deleteThis = async (authorId: number) => {
     const confirmed = window.confirm('Are you sure you want to delete this author?');
-
     if (confirmed) {
-        const response = await deleteAuthor(authorId);
-        message.value = response.message;
+       await authorStore.actions.deleteItemById(authorId);
+       router.push({ path: '/authors'});
     }
 };
 
@@ -32,5 +30,4 @@ const deleteThis = async (authorId: number) => {
             <td><button type="button" @click="deleteThis(author.id)">Delete</button></td>
         </tr>
     </table>
-    <p v-if="message">{{ message }}</p>
 </template>

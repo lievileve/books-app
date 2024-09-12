@@ -34,4 +34,4 @@ export const updateRequest =  (endpoint, data) => http.put(endpoint, data);
  * send a post request to the given endpoint with the given data
  */
 // @ts-ignore
-export const deleteRequest = (endpoint, data) => http.delete(endpoint, data);
+export const deleteRequest = (endpoint) => http.delete(endpoint);

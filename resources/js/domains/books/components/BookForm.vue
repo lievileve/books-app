@@ -7,20 +7,21 @@ const prop = defineProps({
     book: Object,
     header: String,
     authors: Object,
+    mode: String,
 });
 
-const singleBook = ref({ ...prop.book });
+const singleBook = ref({ ...prop.book} );
 
 const emit = defineEmits<{ (e: 'submit', book: Book): void }>();
 
 const handleSubmit = async () => {
-    emit('submit', singleBook.value);
+        emit('submit', singleBook.value);
 };
 </script>
 
 <template>
     <h1>{{ prop.header }}</h1>
-    <form @submit.prevent="handleSubmit">
+    <form v-if="singleBook" @submit.prevent="handleSubmit">
         <label for="title">Title:</label>
         <br />
         <input type="text" id="title" v-model="singleBook.title" />

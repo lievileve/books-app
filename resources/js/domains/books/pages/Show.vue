@@ -1,29 +1,32 @@
 <script setup lang="ts">
-// @ts-nocheck
-import { useRoute } from 'vue-router';
-import { findBookById } from '../store';
-import { findAuthorById, } from '@/domains/authors/store';
-import { addReview, deleteReview, findReviewsByBookId, Review } from '@/domains/reviews/store';
-import { computed, ref } from 'vue';
 
-import ReviewForm from '@/domains/reviews/components/ReviewForm.vue';
+import { useRoute } from 'vue-router';
+import { Review, reviewStore } from '@/domains/reviews/store';
+import { computed, ref } from 'vue';
 import router from '@/services/router';
+import { bookStore } from '../store';
+import { authorStore } from '@/domains/authors/store';
+import ReviewForm from '@/domains/reviews/components/ReviewForm.vue';
 
 const route = useRoute();
 const header = 'Write Review';
-const currentBook = findBookById(Number(route.params.id));
+
+const currentBook = bookStore.getters.byId(+route.params.id);
+const currentAuthor = authorStore.getters.byId(currentBook.author_id);
+console.log(currentBook.value);
+console.log(currentAuthor.value);
 
 const newReview = ref<Review>({
     id: 0,
-    book_id: currentBook?.value?.id || 0,
+    book_id: currentBook.id,
     title: '',
     body: ''
 });
 
-const currentAuthor = computed(() => {
-    if (!currentBook.value) return
-    return findAuthorById(currentBook.value.author_id)
-});
+ const findReviewsByBookId = (book_id: number) => {
+    return reviews.value.filter(review => review.book_id === book_id);
+};
+
 
 const reviews = computed(() => {
     if (!currentBook.value) return
@@ -34,22 +37,18 @@ const reviews = computed(() => {
 
 const handleNewReview = async (review: Review) => {
     review.book_id = currentBook.value.id;
-    const response = await addReview(review);
-    router.push({
-        path: '/',
-        query: { message: response.message }
-    });
+   await reviewStore.actions.create(review);
+    router.push({        path: '/'    });
 }
 
 const editReview = (review: Review) => {
     router.push({ name: 'reviews.edit', params: { id: review.id } })
 }
+
 const deleteThis = async (reviewId: number) => {
     const confirmed = window.confirm('Are you sure you want to delete this review?');
     if (confirmed) {
-        const response = await deleteReview(reviewId);
-        message.value = response.message;
-        await getAllBooks();
+        await reviewStore.actions.deleteItemById(reviewId);
     }
 }
 

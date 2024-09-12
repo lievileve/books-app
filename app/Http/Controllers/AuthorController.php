@@ -31,7 +31,7 @@ class AuthorController extends Controller
         $author = Author::create($validatedData);
         $authors = Author::all();
 
-        return AuthorResource::collection($authors)->additional(['message' => 'Author created successfully.']);
+        return AuthorResource::collection($authors);
     }
 
     public function update(Request $request, Author $author)
@@ -44,20 +44,13 @@ class AuthorController extends Controller
 
         $authors = Author::all();
 
-        return AuthorResource::collection($authors)->additional(['message' => 'Author updated successfully.']);
+        return AuthorResource::collection($authors);
     }
 
     public function destroy(Author $author)
-    {
-        if ($author->books()->count() > 0) {
-            return response()->json([
-                'message' => 'The author cannot be deleted because they have associated books.'
-            ], 400);
-        }
-
-        $author->delete();
+    {   $author->delete();
         $authors = Author::all();
 
-        return AuthorResource::collection($authors)->additional(['message' => 'Author deleted successfully.']);
+        return AuthorResource::collection($authors);
     }
 }

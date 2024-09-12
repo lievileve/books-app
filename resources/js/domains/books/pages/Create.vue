@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import BookForm from '../components/BookForm.vue';
-import { bookStore } from '../store';
-import type { Book } from '../store';
-import { authorStore } from '@/domains/authors/store';
 import router from '@/services/router';
+import { authorStore } from '@/domains/authors/store';
+import { Book, bookStore } from '../store';
 
 
-const newBook = ref<Book>({
+const newBook = ref({
     id: 0,
     title: '',
     author_id: 0,
@@ -24,5 +22,5 @@ const addBook = async (book: Book) => {
 
 </script>
 <template>
-    <BookForm :header="header" :book="newBook" @submit="addBook" :authors="authors" />
+    <BookForm  :header="header" :book="newBook" @submit="addBook" :authors="authors" />
 </template>

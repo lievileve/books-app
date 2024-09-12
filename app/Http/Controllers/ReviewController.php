@@ -30,7 +30,7 @@ class ReviewController extends Controller
 
         $review = Review::create($validatedData);
         $reviews = Review::all();
-        return ReviewResource::collection($reviews)->additional(['message' => 'Review posted successfully.']);
+        return ReviewResource::collection($reviews);
     }
 
     public function update(Request $request, Review $review)
@@ -42,13 +42,13 @@ class ReviewController extends Controller
 
         $review->update($validatedData);
         $reviews = Review::all();
-        return ReviewResource::collection($reviews)->additional(['message' => 'Review updated successfully.']);
+        return ReviewResource::collection($reviews);
     }
 
     public function destroy(Review $review)
     {
         $review->delete();
         $reviews = Review::all();
-        return ReviewResource::collection($reviews)->additional(['message' => 'Review deleted successfully.']);
+        return ReviewResource::collection($reviews);
     }
 }

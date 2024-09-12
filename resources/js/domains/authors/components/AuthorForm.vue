@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import { Author } from '../store'
 
 
-
 const prop = defineProps({
     author: Object,
     header: String,

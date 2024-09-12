@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { findReviewById, getAllReviews, Review, updateReview } from '../store';
+import { Review, reviewStore } from '../store';
 
 import { useRoute } from 'vue-router';
 import ReviewForm from '../components/ReviewForm.vue';
@@ -8,16 +8,14 @@ import router from '@/services/router';
 const route = useRoute();
 const header = 'Edit Review';
 
-getAllReviews();
+reviewStore.actions.getAll();
 
-const currentReview = findReviewById(Number(route.params.id));
+
+const currentReview = reviewStore.getters.byId(+route.params.id);
 
 const handleUpdatedReview = async (review: Review) => {
-    const response = await updateReview(review);
-    router.push({
-        path: '/',
-        query: { message: response.message }
-    });
+   await reviewStore.actions.update(review.id, review);
+    router.push({        path: '/',    });
 };
 </script>
 <template>

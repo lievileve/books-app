@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { addAuthor, Author } from '../store';
-
+import { Author, authorStore } from '../store';
 import AuthorForm from '../components/AuthorForm.vue';
 import router from '@/services/router';
 
@@ -13,11 +12,9 @@ const newAuthor = ref<Author>({
 })
 
 const handleNewAuthor = async (author: Author) => {
-    const response = await addAuthor(author);
-    router.push({
-        path: '/authors',
-        query: { message: response.message }
-    });
+    console.log(author.value)
+    await authorStore.actions.create(author);
+    router.push({ path: '/authors'});
 }
 
 </script>
